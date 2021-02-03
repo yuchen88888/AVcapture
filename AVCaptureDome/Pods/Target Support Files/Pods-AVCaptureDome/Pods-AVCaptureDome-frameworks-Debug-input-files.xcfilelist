@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-AVCaptureDome/Pods-AVCaptureDome-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework
+${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework
+${BUILT_PRODUCTS_DIR}/ReactiveCocoa/ReactiveCocoa.framework
