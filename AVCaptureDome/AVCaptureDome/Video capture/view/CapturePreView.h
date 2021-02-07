@@ -20,6 +20,7 @@
 @property (weak, nonatomic) id<PreviewViewDelegate> delegate;
 @property (nonatomic) BOOL tapToFocusEnabled; //是否聚焦
 @property (nonatomic) BOOL tapToExposeEnabled; //是否曝光
+- (void)didDetectFaces:(NSArray *)faces;
 @end
 
 

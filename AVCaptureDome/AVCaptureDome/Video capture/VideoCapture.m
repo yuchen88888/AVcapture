@@ -13,7 +13,7 @@
 #import "CapturePreView.h"
 #import <Photos/Photos.h>
 static const NSString *CameraAdjustingExposureContext;
-@interface VideoCapture()<AVCaptureFileOutputRecordingDelegate,PreviewViewDelegate>
+@interface VideoCapture()<AVCaptureFileOutputRecordingDelegate,PreviewViewDelegate,AVCaptureMetadataOutputObjectsDelegate>
 @property (strong, nonatomic) dispatch_queue_t videoQueue; //视频队列
 @property (strong, nonatomic) AVCaptureSession *captureSession;// 捕捉会话
 @property (weak,   nonatomic) AVCaptureDeviceInput *activeVideoInput;//输入
@@ -22,6 +22,9 @@ static const NSString *CameraAdjustingExposureContext;
 @property (strong, nonatomic) NSURL *outputURL; //视频输出地址
 @property (strong, nonatomic) CapturePreView *PreView; //预览采集
 @property (strong, nonatomic) NSTimer *timer;
+
+ //    AVCaptureMetadataOutput 用于处理捕获会话AVCaptureSession产生的定时元数据的捕获输出。
+@property(nonatomic,strong)AVCaptureMetadataOutput  *metadataOutput;
 
 @end
 
@@ -115,7 +118,28 @@ static const NSString *CameraAdjustingExposureContext;
     {
         [self.captureSession addOutput:self.movieOutput];
     }
+    
+    
+    // AVCaptureMetadataOutput 用于处理捕获会话AVCaptureSession产生的定时元数据的捕获输出。
+    self.metadataOutput = [[AVCaptureMetadataOutput alloc]init];
+    if ([self.captureSession canAddOutput:self.metadataOutput]) {
+        [self.captureSession addOutput:self.metadataOutput];
+        
+        // 获取人脸 属性  也可以是二维码 条形码等
+        NSArray *metadatObjectTypes = @[AVMetadataObjectTypeFace];
+         //设置metadataObjectTypes 指定对象输出的元数据类型。
+         self.metadataOutput.metadataObjectTypes = metadatObjectTypes;
+           //创建主队列： 因为人脸检测用到了硬件加速，而且许多重要的任务都在主线程中执行，所以需要为这次参数指定主队列。
+           dispatch_queue_t mainQueue = dispatch_get_main_queue();
+           //通过设置AVCaptureVideoDataOutput的代理，就能获取捕获到一帧一帧数据
+        [self.metadataOutput setMetadataObjectsDelegate:self queue:mainQueue];
+  
+    }
+   
+    
+    
     self.videoQueue = dispatch_queue_create("yc.VideoQueue", NULL);
+
     return YES;
 }
 
@@ -749,6 +773,35 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
     self.outputURL = nil;
     [self stopTimer];
 }
+
+
+#pragma mark - AVCaptureMetadataOutputObjectsDelegate //捕捉数据
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+didOutputMetadataObjects:(NSArray *)metadataObjects
+       fromConnection:(AVCaptureConnection *)connection {
+
+    NSLog(@"有输出的");
+    //使用循环，打印人脸数据
+    for (AVMetadataFaceObject *face in metadataObjects) {
+        
+        NSLog(@"Face detected with ID:%li",(long)face.faceID);
+        NSLog(@"Face detected with rollAngle:%f",face.rollAngle);
+        NSLog(@"Face detected with yawAngle:%f",face.yawAngle);
+        NSLog(@"Face bounds:%@",NSStringFromCGRect(face.bounds));
+        
+    }
+    
+    //将元数据 传递给 THPreviewView.m   将元数据转换为layer
+    [self.PreView didDetectFaces:metadataObjects];
+    
+    
+    
+
+}
+
+
+
+
 
 //写入捕捉到的视频
 - (void)writeVideoToAssetsLibrary:(NSURL *)videoURL {
