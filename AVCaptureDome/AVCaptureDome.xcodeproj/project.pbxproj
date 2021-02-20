@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52A2C2A825E0BC8F00C03050 /* YCVideoDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2C29125E0BC8F00C03050 /* YCVideoDecoder.m */; };
+		52A2C2A925E0BC8F00C03050 /* YCVideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2C29225E0BC8F00C03050 /* YCVideoEncoder.m */; };
+		52A2C2AA25E0BC8F00C03050 /* YCAVConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2C29425E0BC8F00C03050 /* YCAVConfig.m */; };
+		52A2C2AB25E0BC8F00C03050 /* YCAudioEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2C29725E0BC8F00C03050 /* YCAudioEncoder.m */; };
+		52A2C2AC25E0BC8F00C03050 /* YCAudioPCMPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2C29A25E0BC8F00C03050 /* YCAudioPCMPlayer.m */; };
+		52A2C2AD25E0BC8F00C03050 /* YCAudioDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2C29C25E0BC8F00C03050 /* YCAudioDecoder.m */; };
+		52A2C2AE25E0BC8F00C03050 /* YCAudioDataQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2C29D25E0BC8F00C03050 /* YCAudioDataQueue.m */; };
+		52A2C2AF25E0BC8F00C03050 /* AAPLEAGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2C2A125E0BC8F00C03050 /* AAPLEAGLLayer.m */; };
+		52A2C2B025E0BC8F00C03050 /* YCSystemCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2C2A425E0BC8F00C03050 /* YCSystemCapture.m */; };
+		52A2C2B125E0BC8F00C03050 /* YCCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A2C2A725E0BC8F00C03050 /* YCCaptureManager.m */; };
 		52D07E9025C933D3008BC5D8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D07E8F25C933D3008BC5D8 /* AppDelegate.m */; };
 		52D07E9625C933D3008BC5D8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D07E9525C933D3008BC5D8 /* ViewController.m */; };
 		52D07E9925C933D3008BC5D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52D07E9725C933D3008BC5D8 /* Main.storyboard */; };
@@ -40,6 +50,26 @@
 
 /* Begin PBXFileReference section */
 		0531319E218F16B4EC452E85 /* Pods-AVCaptureDome.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AVCaptureDome.debug.xcconfig"; path = "Target Support Files/Pods-AVCaptureDome/Pods-AVCaptureDome.debug.xcconfig"; sourceTree = "<group>"; };
+		52A2C29025E0BC8F00C03050 /* YCVideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCVideoEncoder.h; sourceTree = "<group>"; };
+		52A2C29125E0BC8F00C03050 /* YCVideoDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCVideoDecoder.m; sourceTree = "<group>"; };
+		52A2C29225E0BC8F00C03050 /* YCVideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCVideoEncoder.m; sourceTree = "<group>"; };
+		52A2C29325E0BC8F00C03050 /* YCVideoDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCVideoDecoder.h; sourceTree = "<group>"; };
+		52A2C29425E0BC8F00C03050 /* YCAVConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCAVConfig.m; sourceTree = "<group>"; };
+		52A2C29625E0BC8F00C03050 /* YCAudioPCMPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCAudioPCMPlayer.h; sourceTree = "<group>"; };
+		52A2C29725E0BC8F00C03050 /* YCAudioEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCAudioEncoder.m; sourceTree = "<group>"; };
+		52A2C29825E0BC8F00C03050 /* YCAudioDataQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCAudioDataQueue.h; sourceTree = "<group>"; };
+		52A2C29925E0BC8F00C03050 /* YCAudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCAudioDecoder.h; sourceTree = "<group>"; };
+		52A2C29A25E0BC8F00C03050 /* YCAudioPCMPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCAudioPCMPlayer.m; sourceTree = "<group>"; };
+		52A2C29B25E0BC8F00C03050 /* YCAudioEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCAudioEncoder.h; sourceTree = "<group>"; };
+		52A2C29C25E0BC8F00C03050 /* YCAudioDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCAudioDecoder.m; sourceTree = "<group>"; };
+		52A2C29D25E0BC8F00C03050 /* YCAudioDataQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCAudioDataQueue.m; sourceTree = "<group>"; };
+		52A2C29E25E0BC8F00C03050 /* YCAVConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCAVConfig.h; sourceTree = "<group>"; };
+		52A2C2A125E0BC8F00C03050 /* AAPLEAGLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLEAGLLayer.m; sourceTree = "<group>"; };
+		52A2C2A225E0BC8F00C03050 /* AAPLEAGLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLEAGLLayer.h; sourceTree = "<group>"; };
+		52A2C2A425E0BC8F00C03050 /* YCSystemCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCSystemCapture.m; sourceTree = "<group>"; };
+		52A2C2A525E0BC8F00C03050 /* YCCaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCCaptureManager.h; sourceTree = "<group>"; };
+		52A2C2A625E0BC8F00C03050 /* YCSystemCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCSystemCapture.h; sourceTree = "<group>"; };
+		52A2C2A725E0BC8F00C03050 /* YCCaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCCaptureManager.m; sourceTree = "<group>"; };
 		52D07E8B25C933D3008BC5D8 /* AVCaptureDome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVCaptureDome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D07E8E25C933D3008BC5D8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		52D07E8F25C933D3008BC5D8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -92,6 +122,71 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52A2C28E25E0BC8F00C03050 /* AVCoder */ = {
+			isa = PBXGroup;
+			children = (
+				52A2C28F25E0BC8F00C03050 /* VideoEncoder */,
+				52A2C29425E0BC8F00C03050 /* YCAVConfig.m */,
+				52A2C29525E0BC8F00C03050 /* AudioEncoder */,
+				52A2C29E25E0BC8F00C03050 /* YCAVConfig.h */,
+			);
+			path = AVCoder;
+			sourceTree = "<group>";
+		};
+		52A2C28F25E0BC8F00C03050 /* VideoEncoder */ = {
+			isa = PBXGroup;
+			children = (
+				52A2C29025E0BC8F00C03050 /* YCVideoEncoder.h */,
+				52A2C29125E0BC8F00C03050 /* YCVideoDecoder.m */,
+				52A2C29225E0BC8F00C03050 /* YCVideoEncoder.m */,
+				52A2C29325E0BC8F00C03050 /* YCVideoDecoder.h */,
+			);
+			path = VideoEncoder;
+			sourceTree = "<group>";
+		};
+		52A2C29525E0BC8F00C03050 /* AudioEncoder */ = {
+			isa = PBXGroup;
+			children = (
+				52A2C29625E0BC8F00C03050 /* YCAudioPCMPlayer.h */,
+				52A2C29725E0BC8F00C03050 /* YCAudioEncoder.m */,
+				52A2C29825E0BC8F00C03050 /* YCAudioDataQueue.h */,
+				52A2C29925E0BC8F00C03050 /* YCAudioDecoder.h */,
+				52A2C29A25E0BC8F00C03050 /* YCAudioPCMPlayer.m */,
+				52A2C29B25E0BC8F00C03050 /* YCAudioEncoder.h */,
+				52A2C29C25E0BC8F00C03050 /* YCAudioDecoder.m */,
+				52A2C29D25E0BC8F00C03050 /* YCAudioDataQueue.m */,
+			);
+			path = AudioEncoder;
+			sourceTree = "<group>";
+		};
+		52A2C29F25E0BC8F00C03050 /* AVPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				52A2C2A025E0BC8F00C03050 /* VideoPlayer */,
+			);
+			path = AVPlayer;
+			sourceTree = "<group>";
+		};
+		52A2C2A025E0BC8F00C03050 /* VideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				52A2C2A125E0BC8F00C03050 /* AAPLEAGLLayer.m */,
+				52A2C2A225E0BC8F00C03050 /* AAPLEAGLLayer.h */,
+			);
+			path = VideoPlayer;
+			sourceTree = "<group>";
+		};
+		52A2C2A325E0BC8F00C03050 /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				52A2C2A525E0BC8F00C03050 /* YCCaptureManager.h */,
+				52A2C2A725E0BC8F00C03050 /* YCCaptureManager.m */,
+				52A2C2A625E0BC8F00C03050 /* YCSystemCapture.h */,
+				52A2C2A425E0BC8F00C03050 /* YCSystemCapture.m */,
+			);
+			path = Capture;
+			sourceTree = "<group>";
+		};
 		52D07E8225C933D3008BC5D8 = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +212,9 @@
 		52D07E8D25C933D3008BC5D8 /* AVCaptureDome */ = {
 			isa = PBXGroup;
 			children = (
+				52A2C28E25E0BC8F00C03050 /* AVCoder */,
+				52A2C29F25E0BC8F00C03050 /* AVPlayer */,
+				52A2C2A325E0BC8F00C03050 /* Capture */,
 				52D07EC425C9358E008BC5D8 /* Video capture */,
 				52D07E8E25C933D3008BC5D8 /* AppDelegate.h */,
 				52D07E8F25C933D3008BC5D8 /* AppDelegate.m */,
@@ -361,12 +459,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52A2C2AF25E0BC8F00C03050 /* AAPLEAGLLayer.m in Sources */,
+				52A2C2AC25E0BC8F00C03050 /* YCAudioPCMPlayer.m in Sources */,
 				52D07ECA25C93D4D008BC5D8 /* CapturePreView.m in Sources */,
 				52D07EC725C935D0008BC5D8 /* VideoCapture.m in Sources */,
 				52D07E9625C933D3008BC5D8 /* ViewController.m in Sources */,
+				52A2C2B025E0BC8F00C03050 /* YCSystemCapture.m in Sources */,
 				52D07E9025C933D3008BC5D8 /* AppDelegate.m in Sources */,
+				52A2C2A825E0BC8F00C03050 /* YCVideoDecoder.m in Sources */,
+				52A2C2B125E0BC8F00C03050 /* YCCaptureManager.m in Sources */,
+				52A2C2AB25E0BC8F00C03050 /* YCAudioEncoder.m in Sources */,
 				52D07EF225C9534D008BC5D8 /* CaptureButton.m in Sources */,
+				52A2C2A925E0BC8F00C03050 /* YCVideoEncoder.m in Sources */,
+				52A2C2AA25E0BC8F00C03050 /* YCAVConfig.m in Sources */,
 				52D07EA125C933D5008BC5D8 /* main.m in Sources */,
+				52A2C2AD25E0BC8F00C03050 /* YCAudioDecoder.m in Sources */,
+				52A2C2AE25E0BC8F00C03050 /* YCAudioDataQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
