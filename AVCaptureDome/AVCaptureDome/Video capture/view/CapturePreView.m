@@ -67,21 +67,21 @@
     
     _singleTapRecognizer =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-
+    
     _doubleTapRecognizer =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
     _doubleTapRecognizer.numberOfTapsRequired = 2;
-
+    
     _doubleDoubleTapRecognizer =
     [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleDoubleTap:)];
     _doubleDoubleTapRecognizer.numberOfTapsRequired = 2;
     _doubleDoubleTapRecognizer.numberOfTouchesRequired = 2;
-
+    
     [self addGestureRecognizer:_singleTapRecognizer];
     [self addGestureRecognizer:_doubleTapRecognizer];
     [self addGestureRecognizer:_doubleDoubleTapRecognizer];
     [_singleTapRecognizer requireGestureRecognizerToFail:_doubleTapRecognizer];
-
+    
     _focusBox = [self viewWithColor:[UIColor colorWithRed:0.102 green:0.636 blue:1.000 alpha:1.000]];
     _exposureBox = [self viewWithColor:[UIColor colorWithRed:1.000 green:0.421 blue:0.054 alpha:1.000]];
     [self addSubview:_focusBox];
@@ -99,7 +99,7 @@
 //私有方法 用于支持该类定义的不同触摸处理方法。 将屏幕坐标系上的触控点转换为摄像头上的坐标系点
 - (CGPoint)captureDevicePointForPoint:(CGPoint)point {
     AVCaptureVideoPreviewLayer *layer =
-        (AVCaptureVideoPreviewLayer *)self.layer;
+    (AVCaptureVideoPreviewLayer *)self.layer;
     return [layer captureDevicePointOfInterestForPoint:point];
 }
 
@@ -124,16 +124,16 @@
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         view.layer.transform = CATransform3DMakeScale(0.5, 0.5, 1.0);
-                     }
+        view.layer.transform = CATransform3DMakeScale(0.5, 0.5, 1.0);
+    }
                      completion:^(BOOL complete) {
-                         double delayInSeconds = 0.5f;
-                         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-                         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                             view.hidden = YES;
-                             view.transform = CGAffineTransformIdentity;
-                         });
-                     }];
+        double delayInSeconds = 0.5f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            view.hidden = YES;
+            view.transform = CGAffineTransformIdentity;
+        });
+    }];
 }
 
 - (void)runResetAnimation {
@@ -151,19 +151,19 @@
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         self.focusBox.layer.transform = CATransform3DMakeScale(0.5, 0.5, 1.0);
-                         self.exposureBox.layer.transform = CATransform3DMakeScale(0.7, 0.7, 1.0);
-                     }
+        self.focusBox.layer.transform = CATransform3DMakeScale(0.5, 0.5, 1.0);
+        self.exposureBox.layer.transform = CATransform3DMakeScale(0.7, 0.7, 1.0);
+    }
                      completion:^(BOOL complete) {
-                         double delayInSeconds = 0.5f;
-                         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-                         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                             self.focusBox.hidden = YES;
-                             self.exposureBox.hidden = YES;
-                             self.focusBox.transform = CGAffineTransformIdentity;
-                             self.exposureBox.transform = CGAffineTransformIdentity;
-                         });
-                     }];
+        double delayInSeconds = 0.5f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.focusBox.hidden = YES;
+            self.exposureBox.hidden = YES;
+            self.focusBox.transform = CGAffineTransformIdentity;
+            self.exposureBox.transform = CGAffineTransformIdentity;
+        });
+    }];
 }
 
 - (void)setTapToFocusEnabled:(BOOL)enabled {
@@ -188,13 +188,13 @@
 
 // 处理脸部信息
 - (void)didDetectFaces:(NSArray *)faces{
-
+    
     //创建一个本地数组 保存转换后的人脸数据
     NSArray *transformedFaces = [self transformedFacesFromFaces:faces];
     
     //获取faceLayers的key，用于确定哪些人移除了视图并将对应的图层移出界面。
     /*
-        支持同时识别10个人脸
+     支持同时识别10个人脸
      */
     NSMutableArray *lostFaces = [self.faceLayers.allKeys mutableCopy];
     
@@ -263,7 +263,7 @@
 }
 //将设备的坐标空间的人脸转换为视图空间的对象集合
 - (NSArray *)transformedFacesFromFaces:(NSArray *)faces {
-
+    
     NSMutableArray *transformeFaces = [NSMutableArray array];
     
     for (AVMetadataObject *face in faces) {
@@ -284,10 +284,10 @@
 }
 //将 RollAngle 的 rollAngleInDegrees 值转换为 CATransform3D
 - (CATransform3D)transformForRollAngle:(CGFloat)rollAngleInDegrees {
-
+    
     //将人脸对象得到的RollAngle 单位“度” 转为Core Animation需要的弧度值
     CGFloat rollAngleInRadians = (rollAngleInDegrees * M_PI / 180);
-
+    
     //将结果赋给CATransform3DMakeRotation x,y,z轴为0，0，1 得到绕Z轴倾斜角旋转转换
     return CATransform3DMakeRotation(rollAngleInRadians, 0.0f, 0.0f, 1.0f);
     
@@ -296,9 +296,9 @@
 
 //将 YawAngle 的 yawAngleInDegrees 值转换为 CATransform3D
 - (CATransform3D)transformForYawAngle:(CGFloat)yawAngleInDegrees {
-
+    
     //将角度转换为弧度值
-     CGFloat yawAngleInRaians = (yawAngleInDegrees * M_PI / 180);
+    CGFloat yawAngleInRaians = (yawAngleInDegrees * M_PI / 180);
     
     //将结果CATransform3DMakeRotation x,y,z轴为0，-1，0 得到绕Y轴选择。
     //由于overlayer 需要应用sublayerTransform，所以图层会投射到z轴上，人脸从一侧转向另一侧会有3D 效果
@@ -310,7 +310,7 @@
 }
 
 - (CATransform3D)orientationTransform {
-
+    
     CGFloat angle = 0.0;
     //拿到设备方向
     switch ([UIDevice currentDevice].orientation) {
@@ -324,12 +324,12 @@
         case UIDeviceOrientationLandscapeRight:
             angle = -M_PI / 2.0f;
             break;
-        
+            
             //方向：左
         case UIDeviceOrientationLandscapeLeft:
             angle = M_PI /2.0f;
             break;
-
+            
             //其他
         default:
             angle = 0.0f;
@@ -342,7 +342,7 @@
 
 
 - (CALayer *)makeFaceLayerWith:(CGSize)size{
-
+    
     //创建一个layer
     CALayer *layer = [CALayer layer];
     //边框宽度为5.0f
@@ -350,7 +350,7 @@
     
     //边框颜色为红色
     layer.borderColor = [UIColor redColor].CGColor;
-
+    
     
     //返回layer
     return layer;
@@ -374,8 +374,8 @@
 
 - (NSMutableDictionary *)faceLayers{
     if (!_faceLayers) {
-          _faceLayers = [NSMutableDictionary dictionary];
-      }
-      return _faceLayers;
+        _faceLayers = [NSMutableDictionary dictionary];
+    }
+    return _faceLayers;
 }
 @end
