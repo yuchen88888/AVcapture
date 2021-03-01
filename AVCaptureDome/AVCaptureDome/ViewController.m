@@ -5,14 +5,15 @@
 //  Created by 雨尘 on 2021/2/2.
 //  Copyright © 2021 雨尘. All rights reserved.
 //
-
+#define CAMERA_TRANSFORM_X 1
+#define CAMERA_TRANSFORM_Y 1.24299
 #import "ViewController.h"
 #import "VideoCapture.h"
 #import "CaptureButton.h"
 #import <Masonry/Masonry.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
-@interface ViewController ()<VideoCaptureDelegate>
+@interface ViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property(nonatomic,strong)UILabel *timeL;
 @property(nonatomic,strong)UIImageView *thumImageV;
 @end
@@ -27,129 +28,118 @@
     
 }
 - (void)setUI{
-    VideoCapture *cap  = [VideoCapture captureWith:self.view];
-    if (cap) {
-        cap.delegate = self;
-        cap.saveVideoToAlbum = YES;
-        NSLog(@"1");
-    }
-    CaptureButton *btn = [CaptureButton captureButtonWithframe:CGRectMake(self.view.bounds.size.width / 2 - 35, self.view.bounds.size.height - 80, 70, 70)];
+    self.view.backgroundColor = [UIColor whiteColor];
+    UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake((self.view.bounds.size.width - 100)/2,self.view.bounds.size.height - 60 , 100, 60)];
+    [btn setTitle:@"拍摄" forState:UIControlStateNormal];
     [self.view addSubview:btn];
-    
-    self.timeL = [[UILabel alloc]initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 50, 20, 100, 30)];
-    self.timeL.text = @"00:00:00";
-    self.timeL.textColor = [UIColor whiteColor];
-    self.timeL.font = [UIFont systemFontOfSize:16];
-    self.timeL.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:self.timeL];
-    
-    UIButton *lightBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 20, 25, 25)];
-    [lightBtn setBackgroundImage:[UIImage imageNamed:@"flash_icon"] forState:UIControlStateNormal];
-    [self.view addSubview:lightBtn];
-    
-    UIButton *torchBtn = [[UIButton alloc]initWithFrame:CGRectMake(50, 20, 25, 25)];
-    [torchBtn setBackgroundImage:[UIImage imageNamed:@"torch_icon"] forState:UIControlStateNormal];
-    [self.view addSubview:torchBtn];
-    
-    UIButton *camera = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width - 50, 20, 28, 21)];
-      [camera setBackgroundImage:[UIImage imageNamed:@"camera_icon"] forState:UIControlStateNormal];
-      [self.view addSubview:camera];
-    
-     UIButton *photoTake = [[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width - 80, self.view.bounds.size.height - 60, 40, 40)];
-    [photoTake setTitle:@"拍照" forState:UIControlStateNormal];
-    [self.view addSubview:photoTake];
-    
-    
-    //开始录制
+    btn.backgroundColor = [UIColor redColor];
     [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        if (!cap.isRecording) {
-            btn.selected = YES;
-            btn.highlighted = NO;
-            [cap startRecording];
-        }else{
-            btn.highlighted = YES;
-            btn.selected = NO;
-            [cap stopRecording];
-        }
-    }];
-    //闪光灯
-    [[lightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        if (cap.cameraHasFlash) {
-            if (cap.flashMode == AVCaptureFlashModeOff) {
-                [cap setFlashMode:AVCaptureFlashModeOn];
-                NSLog(@"闪光等开启成功");
-            }else{
-                [cap setFlashMode:AVCaptureFlashModeOff];
-                NSLog(@"闪光等关闭成功");
-            }
-        }
-    }];
-    // 手电筒
-    [[torchBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        if (cap.cameraHasTorch) {
-            if (cap.torchMode == AVCaptureTorchModeOff) {
-                [cap setTorchMode:AVCaptureTorchModeOn];
-            }else{
-                [cap setTorchMode:AVCaptureTorchModeOff];
-            }
-        }
-    }];
-    // 切换摄像头
-    [[camera rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        if ([cap canSwitchCameras]) {
-             [cap switchCameras];
-        }
-    }];
-    
-    //
-    [[photoTake rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        [cap captureStillImage];
+        [self startTranscribeVideo];
     }];
 }
-
-- (void)captureFailedWithError:(NSError *)error{
-    NSLog(@"出错了%@",error);
+//选择本地视频
+- (void)chooseLocalVideo
+{
+    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+    ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;//sourcetype有三种分别是camera，photoLibrary和photoAlbum
+    NSArray *availableMedia = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];//Camera所支持的Media格式都有哪些,共有两个分别是@"public.image",@"public.movie"
+    ipc.mediaTypes = [NSArray arrayWithObject:availableMedia[1]];//设置媒体类型为public.movie
+    [self presentViewController:ipc animated:YES completion:nil];
+    ipc.delegate = self;//设置委托
+}
+//录制视频
+- (void)startTranscribeVideo
+{
+        UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+        ipc.sourceType = UIImagePickerControllerSourceTypeCamera;//sourcetype有三种分别是camera，photoLibrary和photoAlbum
+        NSArray *availableMedia = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];//Camera所支持的Media格式都有哪些,共有两个分别是@"public.image",@"public.movie"
+        ipc.mediaTypes = [NSArray arrayWithObject:availableMedia[1]];//设置媒体类型为public.movie
+        [self presentViewController:ipc animated:YES completion:nil];
+        ipc.videoMaximumDuration = 30.0f;//30秒
+        ipc.delegate = self;//设置委托
 }
 
 
-- (void)updateCaptureTimeDisplay:(CMTime)time{
-    CMTime duration = time;
-    NSUInteger time1 = (NSUInteger)CMTimeGetSeconds(duration);
-    NSInteger hours = (time1 / 3600);
-    NSInteger minutes = (time1 / 60) % 60;
-    NSInteger seconds = time1 % 60;
-    NSString *format = @"%02i:%02i:%02i";
-    NSString *timeString = [NSString stringWithFormat:format, hours, minutes, seconds];
-    self.timeL.text = timeString;
- 
-}
-- (void)creatImage:(UIImage *)image{
-    self.thumImageV.image = image;
-    self.thumImageV.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.thumImageV.layer.borderWidth = 1.0f;
-}
-- (UIImageView *)thumImageV{
-    if (!_thumImageV) {
-        _thumImageV = [[UIImageView alloc]initWithFrame:CGRectMake(20, self.view.bounds.size.height - (60  / 9 * 16 ) - 20 , 60, 60  / 9 * 16)];
-        [self.view addSubview:_thumImageV];
-        UIButton *btn  = [[UIButton alloc]initWithFrame:_thumImageV.frame];
-        [self.view addSubview:btn];
-        [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-            [self showCameraRoll];
-        }];
+- (CGFloat) getFileSize:(NSString *)path
+{
+    NSLog(@"%@",path);
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    float filesize = -1.0;
+    if ([fileManager fileExistsAtPath:path]) {
+        NSDictionary *fileDic = [fileManager attributesOfItemAtPath:path error:nil];//获取文件的属性
+        unsigned long long size = [[fileDic objectForKey:NSFileSize] longLongValue];
+        filesize = 1.0*size/1024;
+    }else{
+        NSLog(@"找不到文件");
     }
-    return _thumImageV;;
+    return filesize;
+}//此方法可以获取文件的大小，返回的是单位是KB。
+- (CGFloat) getVideoLength:(NSURL *)URL
+{
+    AVURLAsset *avUrl = [AVURLAsset assetWithURL:URL];
+    CMTime time = [avUrl duration];
+    int second = ceil(time.value/time.timescale);
+    return second;
+}//此方法可以获取视频文件的时长。
+
+//完成视频录制，并压缩后显示大小、时长
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSURL *sourceURL = [info objectForKey:UIImagePickerControllerMediaURL];
+    NSLog(@"%@",[NSString stringWithFormat:@"%f s", [self getVideoLength:sourceURL]]);
+    NSLog(@"%@", [NSString stringWithFormat:@"%.2f kb", [self getFileSize:[sourceURL path]]]);
+    NSURL *newVideoUrl ; //一般.mp4
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];//用时间给文件全名，以免重复，在测试的时候其实可以判断文件是否存在若存在，则删除，重新生成文件即可
+    [formater setDateFormat:@"yyyy-MM-dd-HH:mm:ss"];
+    newVideoUrl = [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingFormat:@"/Documents/output-%@.mp4", [formater stringFromDate:[NSDate date]]]] ;//这个是保存在app自己的沙盒路径里，后面可以选择是否在上传后删除掉。我建议删除掉，免得占空间。
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self convertVideoQuailtyWithInputURL:sourceURL outputURL:newVideoUrl completeHandler:nil];
 }
-- (void)showCameraRoll {
-    UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-    controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    controller.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
-    [self presentViewController:controller animated:YES completion:nil];
-}
-- (void)captureImage:(UIImage *_Nullable)image{
-    NSLog(@"%@",image);
-}
-- (void)captureVideo:(NSString *_Nullable)filePath{
-    NSLog(@"%@",filePath);
+- (void) convertVideoQuailtyWithInputURL:(NSURL*)inputURL
+                               outputURL:(NSURL*)outputURL
+                         completeHandler:(void (^)(AVAssetExportSession*))handler
+{
+    //presetName 几种格式
+    //AVAssetExportPresetLowQuality,
+    //AVAssetExportPreset960x540,
+    //AVAssetExportPreset640x480,
+    //AVAssetExportPresetMediumQuality,
+    //AVAssetExportPreset1920x1080,
+    //AVAssetExportPreset1280x720,
+    //AVAssetExportPresetHighestQuality,
+    //AVAssetExportPresetAppleM4A
+    AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:inputURL options:nil];
+    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:avAsset presetName:AVAssetExportPresetMediumQuality];
+    // NSLog(resultPath);
+    exportSession.outputURL = outputURL;
+    exportSession.outputFileType = AVFileTypeMPEG4; //转换的格式
+    exportSession.shouldOptimizeForNetworkUse= YES;
+    [exportSession exportAsynchronouslyWithCompletionHandler:^(void)
+     {
+        switch (exportSession.status) {
+            case AVAssetExportSessionStatusUnknown:
+                
+                break;
+            case AVAssetExportSessionStatusWaiting:
+                
+                break;
+            case AVAssetExportSessionStatusExporting:
+                
+                break;
+            case AVAssetExportSessionStatusCompleted:
+                NSLog(@"AVAssetExportSessionStatusCompleted");
+                NSLog(@"%@",[NSString stringWithFormat:@"%f s", [self getVideoLength:outputURL]]);
+                NSLog(@"%@", [NSString stringWithFormat:@"%.2f kb", [self getFileSize:[outputURL path]]]);
+                //UISaveVideoAtPathToSavedPhotosAlbum([outputURL path], self, nil, NULL);//这个是保存到手机相册
+                NSLog(@"你的上传视频");
+                break;
+            case AVAssetExportSessionStatusFailed:
+                NSLog(@"AVAssetExportSessionStatusFailed");
+                break;
+            case AVAssetExportSessionStatusCancelled:
+                
+                break;
+        }
+    }];
 }
 @end
